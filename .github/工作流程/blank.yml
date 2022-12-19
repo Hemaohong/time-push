@@ -1,0 +1,28 @@
+名称：时间推动
+上：
+  workflow_dispatch：
+  时间表：
+    #代表国际标准时间4点0分，北京时间需要+8小时，代表北京时间中午12点运行
+    - cron：' 0 4 * * * '
+职位：
+#将工作流程中运行的所有工作组合在一起
+  构建：
+  #定义名称为 build 的作业。 子键将定义作业的性质
+    运行：ubuntu-latest
+    步骤：
+      -使用：动作/结账@v2
+    
+      -名称：设置 Python 3.9
+        使用：动作/设置-python@v2
+        与：
+          蟒蛇版本：3.9.1
+      -名称：设置时区
+        运行：|
+          cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+      -名称：时间推动
+        运行：|
+          python -m pip 安装 --upgrade pip
+          pip3 install -r requirements.txt
+      -名称：时间推动
+        运行：|
+          python3 主.py
